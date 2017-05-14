@@ -14,20 +14,19 @@
 	align-items: center;
 	justify-content: center;
 }
-#email{
-}
+
 .nav-wrapper{
 	background-color: #3B3939;
 }
 .darken-1{
 	background-color: #3B3939;
-	opacity: 0.8;
+	opacity: .8;
 }
 .page-footer{
 	background-color: #3B3939;
 }
 
-.email-label{
+.search-label{
 	padding-left: 1em;
 }
 .search{
@@ -36,6 +35,14 @@
 	color: black;
 
 }
+.activator{
+	max-height: 400px;
+}
+
+/*.card {
+	margin: 1em;
+}*/
+
 /*body {
 	display: flex;
 	min-height: 100vh;
