@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 //SCROLL DOWN TO BOTTOM FROM TOP//
 	$('.extras-button').click(function () {
-		$('html, body').animate({scrollTop: $('#bottom').height()}, 1500);
+		$('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 1500);
 
 	});
 });
