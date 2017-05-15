@@ -37,8 +37,11 @@
 }
 .activator{
 	max-height: 400px;
+	/*min-height: 400px;*/
 }
-
+.container{
+	padding-bottom: 1em;
+}
 /*.card {
 	margin: 1em;
 }*/
