@@ -7,17 +7,24 @@ $(document).ready(function(){
 
 //SLOW SCROLL BACK TO TOP//
 	$('.grey-text').click(function () {
-		$('html, body').animate({ scrollTop: 0}, 1500);
+		$('html, body').animate({ scrollTop: 0}, 2500);
 	});
 
 //SCROLL DOWN TO BOTTOM FROM TOP//
 	$('.extras-button').click(function () {
-		$('html, body').animate({ scrollTop: $(document).height()-$(window).height()}, 1500);
+		$('html, body').animate({ scrollTop: $(document).height()-$(window).height()}, 2500);
 	});
-
-	// $('.search').click(function () {
-	// 	$('html, body').animate({ scrollTop: 0}, 1500);
-	// });
+//ON CLICK AND SEARCH SCROLL TO CARDS//
+	$('#search-button').click(function() {
+		$('html, body').stop(true, true).delay(700).animate({
+			scrollTop: $('.search').offset().top
+		}, 1500);
+	});
+	$('.search-form').submit(function() {
+		$('html, body').stop(true, true).delay(700).animate({
+			scrollTop: $('.search').offset().top
+		}, 1500);
+	});
 
 });
 
@@ -64,6 +71,16 @@ function searchResult(data) {
 		// ingredientSearch(recipes[i].id);
 	}
 	$('.recipe-card').click(populateReveal);
+
+	$('.card-row').append(`<ul class="pagination">
+				<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+				<li class="active"><a href="#!">1</a></li>
+				<li class="waves-effect"><a href="#!">2</a></li>
+				<li class="waves-effect"><a href="#!">3</a></li>
+				<li class="waves-effect"><a href="#!">4</a></li>
+				<li class="waves-effect"><a href="#!">5</a></li>
+				<li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+			</ul>`);
 }
 
 function populateReveal() {
@@ -127,7 +144,7 @@ function ingredientResult(data){
 		);
 	} else {
 		$(`.instructions-${recipeId}`).append(
-				'<p>Instructions not available.</p>'
+				'<p>Instructions Unfortuantely Not Available.</p>'
 		);
 	}
 

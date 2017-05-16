@@ -36,11 +36,19 @@
 
 }
 .activator{
-	max-height: 400px;
+	/*max-height: 400px;*/
+	height: 400px;
+	width: 100%;
+	overflow: hidden;
+	object-fit: cover;
+
 	/*min-height: 400px;*/
 }
 .container{
 	padding-bottom: 1em;
+}
+.pagination{
+	float: right;
 }
 /*.card {
 	margin: 1em;
