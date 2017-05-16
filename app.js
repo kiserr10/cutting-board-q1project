@@ -7,14 +7,18 @@ $(document).ready(function(){
 
 //SLOW SCROLL BACK TO TOP//
 	$('.grey-text').click(function () {
-		$('html, body').animate({scrollTop: 0}, 1500);
+		$('html, body').animate({ scrollTop: 0}, 1500);
 	});
 
 //SCROLL DOWN TO BOTTOM FROM TOP//
 	$('.extras-button').click(function () {
-		$('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 1500);
-
+		$('html, body').animate({ scrollTop: $(document).height()-$(window).height()}, 1500);
 	});
+
+	// $('.search').click(function () {
+	// 	$('html, body').animate({ scrollTop: 0}, 1500);
+	// });
+
 });
 
 
@@ -35,13 +39,13 @@ function searchClick(){
 
 
 function searchResult(data) {
-	// console.log(data);
 	let recipes = data.results;  //<--The array of recipe objects//
 
 	for (var i = 0; i < 9; i++) {
+		let recipeId = recipes[i].id;
 		// console.log(recipes[i].id, $imageUrl + recipes[i].image);
 		$('.card-row').append(
-			`<div class="card medium col s12 m6 l4">
+			`<div id="${recipeId}" class="card recipe-card medium col s12 m6 l4">
 				<div class="card-image waves-effect waves-block waves-light">
 					<img class="activator" src="${$imageUrl + recipes[i].image}">
 				</div>
@@ -51,17 +55,25 @@ function searchResult(data) {
 				</div>
 				<div class="card-reveal">
 					<span class="card-title grey-text text-darken-4">${recipes[i].title}<i class="material-icons right">close</i></span>
-					<ul class="card-steps${i}"></ul>
+					<ul class="ingredients-${recipeId}"></ul>
 					<h1 class="card-title">Instructions:</h1>
-					<div class="instruction-steps${i}"></div>
-
+					<div class="instructions-${recipeId}"></div>
 				</div>
 			</div>`
 		);
-		ingredientSearch(recipes[i].id);
+		// ingredientSearch(recipes[i].id);
 	}
+	$('.recipe-card').click(populateReveal);
 }
 
+function populateReveal() {
+	let recipeId = $(this).attr('id');
+	let $instructions = $(`.instructions-${recipeId}`);
+	if (!$instructions.html()) {
+		console.log('Populated');
+		ingredientSearch(recipeId);
+	}
+}
 
 
 // function(data) { console.log(data.results[1]); }
@@ -102,17 +114,23 @@ function ingredientSearch(recipeId){
 }
 
 function ingredientResult(data){
-	console.log(data.instructions);
-	// var $ingredients = [];
-
+	let recipeId = data.id;
+	// console.log(data.extendedIngredients);
 	for (var i = 0; i < data.extendedIngredients.length; i++) {
-		$('.card-steps' + i).append(
+		$(`.ingredients-${recipeId}`).append(
 			'<li>' + data.extendedIngredients[i].originalString + '</li>'
 		);
-		$('.instruction-steps' + i).append(
-				'<p>' + data.instructions + '</p>'
-			);
 	}
+	if (data.instructions) {
+		$(`.instructions-${recipeId}`).append(
+				'<p>' + data.instructions + '</p>'
+		);
+	} else {
+		$(`.instructions-${recipeId}`).append(
+				'<p>Instructions not available.</p>'
+		);
+	}
+
 }
 
 
