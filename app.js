@@ -16,12 +16,12 @@ $(document).ready(function(){
 	});
 //ON CLICK AND SEARCH SCROLL TO CARDS//
 	$('#search-button').click(function() {
-		$('html, body').stop(true, true).delay(700).animate({
+		$('html, body').stop(true, true).delay(1700).animate({
 			scrollTop: $('.search').offset().top
 		}, 1500);
 	});
 	$('.search-form').submit(function() {
-		$('html, body').stop(true, true).delay(700).animate({
+		$('html, body').stop(true, true).delay(1700).animate({
 			scrollTop: $('.search').offset().top
 		}, 1500);
 	});
@@ -30,8 +30,8 @@ $(document).ready(function(){
 
 
 //URL Variables//
-var $searchUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/search';  //<----User Input//
-var $instructionsUrl = 'https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/';
+var $searchUrl = 'https://recipe-search.now.sh/recipes/search';  //<----User Input//
+var $instructionsUrl = 'https://recipe-search.now.sh/recipes/';
 var $imageUrl = 'https://spoonacular.com/recipeImages/';
 //URL Variables//
 
@@ -47,7 +47,7 @@ function searchClick(){
 
 function searchResult(data) {
 	let recipes = data.results;  //<--The array of recipe objects//
-
+	// console.log(data.results);
 	for (var i = 0; i < 9; i++) {
 		let recipeId = recipes[i].id;
 		// console.log(recipes[i].id, $imageUrl + recipes[i].image);
@@ -69,6 +69,7 @@ function searchResult(data) {
 			</div>`
 		);
 		// ingredientSearch(recipes[i].id);
+		// console.log(data.results);
 	}
 	$('.recipe-card').click(populateReveal);
 
@@ -87,7 +88,7 @@ function populateReveal() {
 	let recipeId = $(this).attr('id');
 	let $instructions = $(`.instructions-${recipeId}`);
 	if (!$instructions.html()) {
-		console.log('Populated');
+		// console.log('Populated');
 		ingredientSearch(recipeId);
 	}
 }
@@ -101,6 +102,7 @@ function populateReveal() {
 function recipeSearch(search){
 	$.ajax({
 		url: $searchUrl, // The URL to the API. You can get this in the API page of the API you intend to consume
+		// url:'recipes.json',
 		type: 'GET', // The HTTP Method, can be GET POST PUT DELETE etc
 		data: {
 			'query': search,
@@ -109,14 +111,16 @@ function recipeSearch(search){
 		success: searchResult,  //<--Callback Function to the API request for
 		error: function(err) { alert(err); },
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader('X-Mashape-Authorization', 'Fj660kzp6mmshIhAIrhx43CKZ4hyp1u1BXTjsnSmeypNvfgMlj'); // Enter here your Mashape key
+			xhr.setRequestHeader('X-Mashape-Authorization', 'AWSQqeJH4Umshj76kKpNlqShPjHxp17k89BjsnfcCDrDMru0b9'); // Enter here your Mashape key
 		}
 	});
 }
-
+let currentRecipeId = null;
 function ingredientSearch(recipeId){
+	currentRecipeId = recipeId;
 	$.ajax({
 		url: $instructionsUrl + recipeId + '/information', // The URL to the API. You can get this in the API page of the API you intend to consume
+		// url: 'recipe.json',
 		type: 'GET', // The HTTP Method, can be GET POST PUT DELETE etc
 		data: {
 			'includeNutrition':'false',
@@ -125,13 +129,16 @@ function ingredientSearch(recipeId){
 		success: ingredientResult,
 		error: function(err) { alert(err); },
 		beforeSend: function(xhr) {
-			xhr.setRequestHeader('X-Mashape-Authorization', 'Fj660kzp6mmshIhAIrhx43CKZ4hyp1u1BXTjsnSmeypNvfgMlj'); // Enter here your Mashape key
+			xhr.setRequestHeader('X-Mashape-Authorization', 'AWSQqeJH4Umshj76kKpNlqShPjHxp17k89BjsnfcCDrDMru0b9'); // Enter here your Mashape key
 		}
 	});
 }
 
 function ingredientResult(data){
+	console.log(data);
 	let recipeId = data.id;
+	// console.log(data.id);
+	// let recipeId = currentRecipeId;
 	// console.log(data.extendedIngredients);
 	for (var i = 0; i < data.extendedIngredients.length; i++) {
 		$(`.ingredients-${recipeId}`).append(

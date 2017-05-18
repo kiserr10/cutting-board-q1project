@@ -1,0 +1,6 @@
+.card-panel{
+	display: flex;
+	background-color: #3B3939;
+	opacity: .9;
+	float: right;
+}
